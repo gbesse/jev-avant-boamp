@@ -1,0 +1,6 @@
+import test from "node:test"; import assert from "node:assert/strict"; import { deliberation,linkNotice,detectSignal } from "../src/index.mjs"; import { createFakeProvider } from "../src/jev.mjs";
+const act={COLL_NOM:"Ville",COLL_SIRET:"12345678901234",DELIB_ID:"d1",DELIB_DATE:"2026-01-01",DELIB_MATIERE_CODE:"1.1",DELIB_MATIERE_NOM:"Commande publique",DELIB_OBJET:"Rénover une école"};
+test("requires the SCDL core",()=>assert.throws(()=>deliberation({}),/COLL_NOM/));
+test("validates SIRET",()=>assert.throws(()=>deliberation({...act,COLL_SIRET:"123"}),/14 digits/));
+test("different buyer is deterministic",async()=>{const p=createFakeProvider(()=>{throw Error("must not run")});const r=await linkNotice({act:deliberation(act)},{id:"n",object:"Travaux",buyerSiret:"99999999999999",publishedAt:"2026-02-01"},p);assert.equal(r.relation,"different_buyer");assert.equal(p.calls,0)});
+test("detects a reviewable signal",async()=>{const p=createFakeProvider(()=>({model:"jev-1.13.0",answers:{signal:{type:"choice",choice:"procurement_signal",probabilities:{procurement_signal:.9,budget_signal:.05,routine_admin:.03,unrelated:.02},confidence:.9}},usage:{input_tokens:10,output_tokens:0}}));const r=await detectSignal(act,p);assert.equal(r.review,true)});
