@@ -1,6 +1,6 @@
 {
   "name": "@gbesse/jev-avant-boamp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Détecte dans les délibérations locales des signaux d’achat public avant la publication d’un avis BOAMP.",
   "type": "module",
   "license": "MIT",
