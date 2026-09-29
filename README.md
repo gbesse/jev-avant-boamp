@@ -1,51 +1,60 @@
-# Jev Avant Boamp
+# Jev Avant BOAMP
 
-    **Detect reviewable procurement signals in French local deliberations before a matching BOAMP notice appears.**
+**Détecte dans les délibérations locales des signaux d’achat public avant la publication d’un avis BOAMP.**
 
-    [![Tests](https://github.com/gbesse/jev-avant-boamp/actions/workflows/test.yml/badge.svg)](https://github.com/gbesse/jev-avant-boamp/actions/workflows/test.yml) [MIT](LICENSE) · Node.js 22+ · Public alpha
+[![Tests](https://github.com/gbesse/jev-avant-boamp/actions/workflows/test.yml/badge.svg)](https://github.com/gbesse/jev-avant-boamp/actions/workflows/test.yml) [MIT](LICENSE) · Node.js 22+ · v0.1.1 · Documentation française
 
-    ## Try it
+Le dépôt normalise les délibérations au format SCDL, repère les intentions d’achat à examiner et peut relier ultérieurement un signal à un avis BOAMP publié.
 
-    ```sh
-    git clone https://github.com/gbesse/jev-avant-boamp.git
-    cd jev-avant-boamp
-    npm install
-    npm run demo
-    ```
+## Démarrage rapide
 
-    The demo uses synthetic records and fixture probabilities. It makes no network call and makes no claim about measured Jev quality.
+```sh
+git clone https://github.com/gbesse/jev-avant-boamp.git
+cd jev-avant-boamp
+npm install
+npm run demo
+```
 
-    ## Use the library
+La démonstration utilise uniquement des données et probabilités synthétiques. Elle n’effectue aucun appel réseau et ne constitue pas une mesure de qualité de Jev.
 
-    Import the domain functions from `@gbesse/jev-avant-boamp` and provide either `createJevClient()` from the `./jev` export or the offline `createFakeProvider()` test double. The complete runnable path is in `examples/demo.mjs`.
+## Utilisation de la bibliothèque
 
-    ## Decision boundary
+Importez les fonctions métier depuis `@gbesse/jev-avant-boamp`. Fournissez soit `createJevClient()` depuis l’export `./jev`, soit `createFakeProvider()` pour les tests hors ligne.
 
-    SCDL validation, buyer identity and chronology stay in code. Jev labels procurement intent and project relationships; positive matches are leads for review, never tender forecasts.
+Les noms de l’API JavaScript restent stables pour préserver la compatibilité avec les versions précédentes. La documentation, les exemples et les explications destinées aux utilisateurs sont en français.
 
-    ## Data provenance
+## Frontière de décision
 
-    The input contract follows SCDL Délibérations 2.0. BOAMP provides a separate open API for published notices, so the package can later verify whether an early signal became a notice.
+La validation SCDL, l’identité de l’acheteur et la chronologie restent dans le code. Jev qualifie l’intention d’achat et la relation entre projets. Les résultats sont des pistes de veille.
 
-    Official references:
+La question exacte envoyée à Jev est versionnée dans [`src/index.mjs`](src/index.mjs). Les identifiants, dates, calculs, filtres, seuils et transitions d’état restent gérés par du code ordinaire.
 
-    - [https://schema.data.gouv.fr/scdl/deliberations/2.0.0/documentation.html](https://schema.data.gouv.fr/scdl/deliberations/2.0.0/documentation.html)
+## Sources
+
+- [https://schema.data.gouv.fr/scdl/deliberations/2.0.0/documentation.html](https://schema.data.gouv.fr/scdl/deliberations/2.0.0/documentation.html)
 - [https://www.boamp.fr/pages/api-boamp/](https://www.boamp.fr/pages/api-boamp/)
 
-    Keep upstream attribution, source URLs, retrieval dates and original identifiers with every derived record.
+Conservez l’attribution amont, les identifiants d’origine, les URL de source et les dates de récupération avec chaque enregistrement dérivé.
 
-    ## Real Jev requests
+## Appels Jev réels
 
-    Real requests are opt-in, paid, and sent to `https://api.typesafe.ai/v1/systemone`. The client pins `jev-1.13.0`, validates the returned model and all probabilities, rejects redirects, retries only network failures plus HTTP 429/529, and refuses state above a conservative 24,000-token estimate.
+Les appels réels sont facultatifs et payants. Le client fixe le modèle `jev-1.13.0`, valide l’identité du modèle et toutes les probabilités, refuse les redirections, ne retente que les erreurs réseau et les réponses HTTP 429/529, puis bloque les requêtes dépassant une estimation prudente de 24 000 jetons.
 
-    ```sh
-    TYPESAFE_API_KEY=... node scripts/live-smoke.mjs
-    ```
+```sh
+TYPESAFE_API_KEY=... node scripts/live-smoke.mjs
+```
 
-    Never send personal data, secrets, or full unredacted case files. Evaluate representative French labels before operational use.
+N’envoyez jamais de secret, de donnée personnelle ni de dossier sensible non expurgé. Évaluez le comportement sur un jeu représentatif de cas français avant tout usage opérationnel.
 
-    ## Validation
+## Validation
 
-    `npm run validate` runs syntax checks, strict public-type checks, tests, and the offline demo on Node.js 22 and 24 in CI.
+```sh
+npm run check
+npm run typecheck
+npm test
+npm run demo
+```
 
-    Independent project; not affiliated with TypeSafe AI or the French administration. See the [Jev API documentation](https://docs.typesafe.ai/api) and [model limitations](https://docs.typesafe.ai/model-jaggedness/jev-1.13).
+La CI exécute ces vérifications sous Node.js 22 et 24.
+
+Projet indépendant, sans affiliation avec TypeSafe AI ni avec l’administration française. Consultez la [documentation de l’API Jev](https://docs.typesafe.ai/api) et les [limites du modèle](https://docs.typesafe.ai/model-jaggedness/jev-1.13).
