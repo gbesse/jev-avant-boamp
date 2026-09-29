@@ -1,4 +1,4 @@
-// Purpose: Detect procurement intent in normalized SCDL deliberations and link later BOAMP notices.
+// Objectif : implémenter la frontière de décision métier propre au dépôt.
 export function deliberation(input) {
   const required=["COLL_NOM","COLL_SIRET","DELIB_ID","DELIB_DATE","DELIB_MATIERE_CODE","DELIB_MATIERE_NOM","DELIB_OBJET"];
   for (const key of required) if (!input?.[key]) throw new TypeError(`Missing SCDL field ${key}`);

@@ -1,5 +1,5 @@
-# How it decides
+# Comment la décision est prise
 
-SCDL validation, buyer identity and chronology stay in code. Jev labels procurement intent and project relationships; positive matches are leads for review, never tender forecasts.
+La validation SCDL, l’identité de l’acheteur et la chronologie restent dans le code. Jev qualifie l’intention d’achat et la relation entre projets. Les résultats sont des pistes de veille.
 
-The exact questions and criteria are versioned beside the call in [src/index.mjs](../src/index.mjs). Synthetic demo probabilities are illustrative. Calibrate thresholds on representative human labels before operational use.
+La question et les critères exacts sont versionnés dans [`src/index.mjs`](../src/index.mjs). Les probabilités de la démonstration sont synthétiques. Calibrez les seuils de revue sur des cas français annotés et représentatifs avant tout usage opérationnel.
