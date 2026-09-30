@@ -2,7 +2,7 @@
 
 **Détecte dans les délibérations locales des signaux d’achat public avant la publication d’un avis BOAMP.**
 
-[![Tests](https://github.com/gbesse/jev-avant-boamp/actions/workflows/test.yml/badge.svg)](https://github.com/gbesse/jev-avant-boamp/actions/workflows/test.yml) [MIT](LICENSE) · Node.js 22+ · v0.1.2 · Documentation française
+[![Tests](https://github.com/gbesse/jev-avant-boamp/actions/workflows/test.yml/badge.svg)](https://github.com/gbesse/jev-avant-boamp/actions/workflows/test.yml) [MIT](LICENSE) · Node.js 22+ · v0.1.3 · Documentation française
 
 Le dépôt normalise les délibérations au format SCDL, repère les intentions d’achat à examiner et peut relier ultérieurement un signal à un avis BOAMP publié.
 
@@ -62,10 +62,20 @@ console.log(JSON.stringify(resultat, null, 2));
 Lancez-le avec :
 
 ```sh
-npm run demo
+npm run demo:principal
 ```
 
 Résultat à repérer : `signal: procurement_signal`.
+
+### Cas limite à tester
+
+Deux SIRET acheteurs différents interrompent le rapprochement avec l’avis. Le code se trouve dans [`examples/cas-limite.mjs`](examples/cas-limite.mjs).
+
+```sh
+npm run demo:limite
+```
+
+Résultat à repérer : `relation: different_buyer · appels Jev: 0`. La commande `npm run demo` exécute les deux exemples.
 
 ## Utilisation de la bibliothèque
 
